@@ -66,10 +66,10 @@ d3.json('appstore.json', function(data)
         .height(350)
         .title('Genres');
 
-    var x = new insight.Axis('Genre', insight.Scales.Ordinal)
+    var x = new insight.Axis('Genre', insight.scales.ordinal)
              .tickLabelOrientation('tb');
 
-    var y = new insight.Axis('No. Apps', insight.Scales.Linear);
+    var y = new insight.Axis('No. Apps', insight.scales.linear);
     
     chart.yAxis(y);
     chart.xAxis(x);
