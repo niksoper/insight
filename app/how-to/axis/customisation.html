@@ -1,0 +1,168 @@
+<section>
+    <div id="container-body" class="container">
+        <h2>How to <span class="how-to-arrow">&#10132;</span> Customise an Axis</h2>
+
+        <h4 class="how-to-header">Objective</h4>
+        <p>In this guide we cover how to style an axis:</p>
+
+        <ol>
+            <li>Show gridlines for an axis</li>
+            <li>Reverse the position of an axis in a chart</li>
+            <li>Change the rotation and alignment of tick labels</li>
+        </ol>
+
+        <p>We also cover how to format the data displayed by an axis:</p>
+
+        <ol>
+            <li>Change content of tick labels</li>
+            <li>Setting the maximum and minimum bounds for an axis</li>
+            <li>Define the tick frequency</li>
+            <li>Specify an ordering for tick labels</li>
+        </ol>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+
+        <p>Before you get started, you need to have read through the
+            <a href="#/gettingStarted">Getting Started Guide</a>.
+        </p>
+
+        <p>
+            If you want to follow along with the code in the guide, the easiest place to start is with our
+            <a target="_blank" href="http://jsfiddle.net/cvLet9dt/">JSFiddle</a>.
+        </p>
+
+        <p class="text-danger">
+            <strong>Don't forget:</strong> Any changes to a chart are not updated until a draw is called on a chart object
+            or a chart group.
+        </p>
+        <hr/>
+
+        <h4 class="how-to-header">An example : Show gridlines</h4>
+        <p>
+            An axis allows you to add gridlines to the chart using
+            <api-docs page="insight.Axis" anchor="#self.shouldShowGridlines">insight.Axis.shouldShowGridlines</api-docs>.
+        </p>
+
+        <p>To make it easier to read the values in the chart, we will display gridlines on the horizontal x axis:</p>
+
+        <code class="language-javascript">
+            x.shouldShowGridlines(true);
+        </code>
+
+        <p>
+            To change the position of an axis, the
+            <api-docs page="insight.Axis" anchor="#self.hasReversedPosition">insight.Axis.hasReversedPosition</api-docs>
+            function can be invoked.
+        </p>
+
+        <p>We can bring the vertical y axis to the top by calling:</p>
+
+        <code class="language-javascript">
+            x.hasReversedPosition(true);
+        </code>
+
+        <p>The offset and rotation of tick labels is also configurable:</p>
+
+        <ul>
+            <li>
+                <api-docs page="insight.Axis" anchor="#self.textAnchor">insight.Axis.textAnchor</api-docs>
+                &mdash; aligns the tick labels to their corresponding <code>'start'</code>, <code>'middle'</code>
+                or <code>'end'</code> positions.
+            </li>
+            <li>
+                <api-docs page="insight.Axis" anchor="#self.tickPadding">insight.Axis.tickPadding</api-docs>
+                &mdash; controls the spacing between the tick line and tick label (in pixels).
+            </li>
+            <li>
+                <api-docs page="insight.Axis" anchor="#self.tickLabelRotation">insight.Axis.tickLabelRotation</api-docs>
+                &mdash; rotates each tick label from horizontal, where angle describes a clockwise rotation (in degrees).
+            </li>
+            <li>
+                <api-docs page="insight.Axis" anchor="#self.tickLabelOrientation">insight.Axis.tickLabelOrientation
+                </api-docs>
+                &mdash; a helper function that sets the tick label rotation to either 0 or 90.
+            </li>
+        </ul>
+
+        <p>For our chart, we will reduce the padding for the x axis and rotate the tick labels on the y axis:</p>
+
+        <code class="language-javascript">
+            x.tickPadding(5);
+
+            y.tickLabelRotation(30);
+        </code>
+
+        <p>At this point, we have a chart that looks like:</p>
+
+        <div id="stylingchart" class="chart-centre"></div>
+
+        <hr/>
+
+        <h4 class="how-to-header">An example : Format the data displayed</h4>
+
+        <p>
+            The content of a tick label can changed by assigning a formatting function to
+            <api-docs page="insight.Axis" anchor="#self.tickLabelFormat">insight.Axis.tickLabelFormat</api-docs>.
+        </p>
+
+        <p>To ensure all the names in the chart are upper case, we can include the following code:</p>
+
+        <code class="language-javascript">
+            y.tickLabelFormat(function(tickValue) {
+                return tickValue.toUpperCase();
+            });
+        </code>
+
+        <p>
+            By default, InsightJS will analyse the data provided in the chart to identify the minimum and maximum bounds.
+            We can override this behaviour by setting our own limits using
+            <api-docs page="insight.Axis" anchor="#self.axisRange">insight.Axis.axisRange</api-docs>.
+        </p>
+
+        <p>To change the maximum value from the default value to 50, we use:</p>
+
+        <code class="language-javascript">
+            x.axisRange(0, 50);
+        </code>
+
+        <p>
+            The tick frequency on the axis automatically calculated by default, so that there is no more than 10 tick
+            labels shown. This can be overridden using
+            <api-docs page="insight.Axis" anchor="#self.tickFrequency">insight.Axis.tickFrequency</api-docs>.
+        </p>
+
+        <p>To tell the x axis that the tick values should go up by 4, we can call:</p>
+
+        <code class="language-javascript">
+            x.tickFrequency(4);
+        </code>
+
+        <p>
+            For an ordinal axis, it is possible to change the ordering of the tick labels using
+            <api-docs page="insight.Axis" anchor="#self.orderingFunction">insight.Axis.orderingFunction</api-docs>.
+            In order for this to have any affect, you also need to call
+            <api-docs page="insight.Axis" anchor="#self.isOrdered">insight.Axis.isOrdered</api-docs>
+        </p>
+
+        <p>To sort this data by age, we can include the following code:</p>
+
+        <code class="language-javascript">
+            y.orderingFunction(function(a, b)
+            {
+                return a.age - b.age;
+            });
+
+            y.isOrdered(true);
+        </code>
+
+        <p>We have now come to the end of this guide, and our chart should now look like:</p>
+
+        <div id="dataformattingchart" class="chart-centre"></div>
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>
+

@@ -1,6 +1,25 @@
+=== Version 1.2.1 (04-Nov-2014) ===
+
+* Library changes:
+  * Improved documentation for working with groupings.
+  * Updated Grouping calculations to improve consistency
+    * Grouping.count() stores total count in `value.propertyName.totalCount` rather than `value.propertyName.Total`
+    * Grouping.mean() stores mean in `value.propertyName.mean` rather than `value.propertyName.Average`
+    * Grouping.sum() stores sum in `value.propertyName.sum` rather than `value.propertyName.Sum`
+  * Removed insight.Chart.title
+  * Added insight.Series.title
+  * Updated library to work with crossfilter to 1.3.11
+  * Added utility, insight.conversion, for converting arff data to json data
+
+Issues fixed:
+  * insight.DataSet.group function ignored any filter already applied on the DataSet.
+
+
+
 === Version 1.2.0 (07-Oct-2014) ===
 
 * Library changes:
+  * Added new theme, WarmTheme
   * Added Chart.titlePadding, to configure the distance between the chart title and plot area.
   * Added Axis.tickWidth and Axis.tickColor to configure the appearance of axis tick marks. Defaults are taken from the Theme.axisStyle.tickLineColor and Theme.axis.tickLineWidth respectively.
   * Added BarSeries as a common base class between RowSeries and ColumnSeries. BarSeries should not be initialized directly, but contains methods used in both RowSeries and ColumnSeries.

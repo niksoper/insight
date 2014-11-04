@@ -1,0 +1,164 @@
+<section>
+    <div id="container-body" class="container">
+        <h2>How to <span class="how-to-arrow">&#10132;</span> Make a chart with multiple series</h2>
+        <div class="section-divider"></div>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+        <ul>
+            <li><a target="_blank" href="#/gettingStarted">Getting Started</a></li>
+        </ul>
+
+        <h4 class="how-to-header">Objective</h4>
+        <p>
+            This guide explains how to create a chart with more than one series like the one below.
+        </p>
+
+        <div id="multiple-chart" class="chart-centre"></div>
+
+        <h4 class="how-to-header">Why use multiple series?</h4>
+        <p>
+            Sometimes we will want to display more than one value for each key in our chart. For example, we may want
+            to see how our current performance compares to the past or some aim in the future.
+        </p>
+
+        <h4 class="how-to-header">Example</h4>
+        <h4><span class="how-to-step">1</span>Set the data</h4>
+        <p>
+            The data below shows the performance and aspirations of teams in a very serious, competitive football league.
+            We wrap this data in an InsightJS DataSet object.
+        </p>
+
+        <code class="language-javascript">
+            var leaguePlaces = [
+            {
+                teamName: 'Chuffed FC', currentPosition: 5, targetPoints: 50, currentPoints: 18
+            },
+            {
+                teamName: 'Old Boys', currentPosition: 3, targetPoints: 45, currentPoints: 27
+            },
+            {
+                teamName: 'Hairy Harriers', currentPosition: 1, targetPoints: 90, currentPoints: 35
+            },
+            {
+                teamName: 'Kings Arms', currentPosition: 2, targetPoints: 40, currentPoints: 34
+            },
+            {
+                teamName: 'YMCA Athletic', currentPosition: 6, targetPoints: 35, currentPoints: 18
+            },
+            {
+                teamName: 'Wasters', currentPosition: 7, targetPoints: 3, currentPoints: 10
+            },
+            {
+                teamName: 'Dreamers', currentPosition: 8, targetPoints: 74, currentPoints: 2
+            },
+            {
+                teamName: 'Posers', currentPosition: 4, targetPoints: 65, currentPoints: 20
+            },
+            {
+                teamName: 'Hackney Hackers', currentPosition: 3, targetPoints: 38, currentPoints: 22
+            }];
+
+            var dataset = new insight.DataSet(leaguePlaces);
+
+        </code>
+
+        <h4><span class="how-to-step">2</span>Create the chart</h4>
+        <p>Our chart is created with a custom width and height, as well as including a <how-to-guide page="chart/legend">legend</how-to-guide>.</p>
+
+        <code class="language-javascript">
+            var chart = new insight.Chart('League', '#chart')
+                .width(500)
+                .height(500)
+                .legend(new insight.Legend());
+
+        </code>
+
+        <h4><span class="how-to-step">3</span>Create the axes</h4>
+        <p>
+            We add an ordinal x-axis and linear y-axis to the chart. See <how-to-guide page="style/chart-style">axis customisation</how-to-guide>
+            if you are unfamiliar with axis formatting.
+        </p>
+
+        <code class="language-javascript">
+            var x = new insight.Axis('Team', insight.scales.ordinal)
+                .tickLabelRotation(45)
+                .isOrdered(true);
+
+            var y = new insight.Axis('Points', insight.scales.linear);
+
+            chart.xAxis(x);
+            chart.yAxis(y);
+
+        </code>
+
+        <h4><span class="how-to-step">4</span>Create the column series</h4>
+        <p>
+            Create a column series using the team name and current number of points as key and value functions.
+            Notice that we have abstracted the key function into <code>teamNameFunc</code> as we will be reusing this in
+            the next step.
+        </p>
+
+        <code class="language-javascript">
+            var teamNameFunc = function(d) {
+                return d.teamName;
+            };
+
+            var currentPoints = new insight.ColumnSeries('Current', dataset, x, y)
+                .keyFunction(teamNameFunc)
+                .valueFunction(function(d){
+                return d.currentPoints;
+            });
+
+        </code>
+
+        <h4><span class="how-to-step">5</span>Create the marker series</h4>
+        <p>
+            Here, we create a marker series using the team name and target number of points as key and value functions.
+            Notice the call to <code>teamNameFunc</code> in the key function.
+        </p>
+
+        <code class="language-javascript">
+            var targetPoints = new insight.MarkerSeries('Target', dataset, x, y)
+                .keyFunction(teamNameFunc)
+                .valueFunction(function(d) {
+                return d.targetPoints;
+            })
+            .widthFactor(0.7);
+
+            chart.series([currentPoints, targetPoints]);
+
+        </code>
+
+        <h4><span class="how-to-step">6</span>Add the series</h4>
+        <p>
+            Add the column and maker series to the chart as an array.
+        </p>
+
+        <code class="language-javascript">
+            chart.series([currentPoints, targetPoints]);
+
+        </code>
+
+
+        <p>
+            See <api-docs page="insight.ColumnSeries">insight.ColumnSeries</api-docs> and
+            <api-docs page="insight.MarkerSeries">insight.MarkerSeries</api-docs>
+            for more detail about what you can do with these series.
+        </p>
+
+        <h4><span class="how-to-step">7</span>Don't forget to draw the chart!</h4>
+        <p>If you don't draw the chart then you will not see it.</p>
+
+        <code class="language-javascript">
+            chart.draw();
+
+        </code>
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>
+
+

@@ -1,0 +1,261 @@
+<section>
+    <div id="container-body" class="container">        
+        <h2>How to <span class="how-to-arrow">&#10132;</span> Further process data</h2>
+        <h4 class="how-to-header">Objective</h4>
+        <p>In this guide, we will cover:</p>
+
+        <ol>
+            <li>How to further process data, by hooking into the post aggregation step of a grouping object.</li>
+            <li>
+                An example showing how to create a
+                <a target="_blank" href="http://en.wikipedia.org/wiki/Pareto_chart">pareto chart</a> using a
+                post aggregation function:
+                <ul>
+                    <li>showing the cumulative contribution of fictitious clients in relation to their total revenue</li>
+                </ul>
+            </li>
+        </ol>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+
+        <p>Before you get started, you need to have read through the
+            <a href="#/gettingStarted">Getting Started Guide</a> and
+            <how-to-guide page="data/grouping">Group Data</how-to-guide>.
+        </p>
+
+        <p>
+            If you want to follow along with the code in the guide, the easiest place to start is with our
+            <a target="_blank" href="http://jsfiddle.net/cvLet9dt/">JSFiddle</a>.
+        </p>
+
+        <p class="text-danger">
+            <strong>Don't forget:</strong> Any changes to a chart are not updated until a draw is called on a chart object
+            or a chart group.
+        </p>
+
+
+        <hr/>
+
+        <h3>How to perform custom aggregation calculations</h3>
+
+        <p>A grouping object is responsible aggregating values, including calculating means and performing summations.</p>
+
+        <p>
+            To perform more advanced calculations a function can be supplied to
+            <code>insight.Grouping.postAggregation</code>.
+        </p>
+
+
+        <code class="language-javascript">
+        var eyeColorGrouping = dataset.group('eyeColor', function(d) { return d.eyeColor; });
+
+        eyeColorGrouping.postAggregation(function(grouping) {
+            var data = grouping.extractData();
+
+            var populationTotal = data.map(function(groupData) {
+                return groupData.value.count;
+            }).reduce(function(previousValue, currentValue) {
+                return previousValue + currentValue;
+            });
+
+            data.forEach(function(groupData) {
+                groupData.value.percentageCount = groupData.value.count / populationTotal;
+            });
+
+        });
+        </code>
+
+        <p>
+            We can see what an InsightJS grouping actually looks like by calling <code>eyeColorGrouping.rawData()</code>:
+        </p>
+
+        <code class="language-javascript">
+        [
+            { "key": "blue", "value": { "count": 1, "percentageCount": 0.08333333333333333 } }, // equals 1 / 12
+            { "key": "brown", "value": { "count": 4, "percentageCount": 0.3333333333333333 } }, // equals 4 / 12
+            { "key": "green", "value": { "count": 7, "percentageCount": 0.5833333333333334 } }  // equals 7 / 12
+        ]
+        </code>
+
+
+        <hr/>
+
+        <h4 class="how-to-header">An example</h4>
+
+        <p>
+            This pareto chart shows the cumulative contribution of a list of clients to total revenue, as a percentage
+            of total revenue:
+        </p>
+
+        <div id="pareto" class="chart-centre"></div>
+
+        <p>
+        For this example, we will be using the following data:
+        </p>
+
+        <code class="language-javascript">
+        var data = [
+            { "currentRevenue": 2000, "year": 2014, "month": 7, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 7, "client": "Wayne Enterprises" },
+            { "currentRevenue": 2000, "year": 2014, "month": 7, "client": "Globex" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Globex" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Wayne Enterprises" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Globex" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Acme Corp" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Globex" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Cyberdyne Systems" },
+            { "currentRevenue": 1700, "year": 2014, "month": 8, "client": "Acme Corp" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Acme Corp" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Cyberdyne Systems" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Acme Corp" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Wayne Enterprises" },
+            { "currentRevenue": 2000, "year": 2014, "month": 9, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Wayne Enterprises" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Acme Corp" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Globex" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Cyberdyne Systems" },
+            { "currentRevenue": 2000, "year": 2014, "month": 10, "client": "Acme Corp" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Acme Corp" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Cyberdyne Systems" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Globex" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Acme Corp" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Globex" },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Wayne Enterprises"  },
+            { "currentRevenue": 1800, "year": 2014, "month": 11, "client": "Globex" }
+        ];
+        </code>
+
+        <p>
+            In this chart, the data is to be grouped by <code>client</code> and the measurements of interest are the
+            summation and cumulative summation of <code>currentRevenue</code>:
+        </p>
+
+        <code class="language-javascript">
+        var dataset = new insight.DataSet(data);
+
+        var clientGrouping = dataset.group('clients', function (d) { return d.client; })
+            .sum(['currentRevenue'])
+            .cumulative(['currentRevenue.sum'])
+            .orderingFunction(function (a, b) {
+                return b.value.currentRevenue.sum - a.value.currentRevenue.sum;
+            });
+        </code>
+
+        <p>
+            To calculate the percentage of the <code>currentRevenue</code>, a post aggregation function is needed:
+        </p>
+
+        <code class="language-javascript">
+        clientGrouping.postAggregation(function (grouping) {
+            var data = grouping.extractData();
+
+            var total = data.map(function(groupData) {
+                return groupData.value.currentRevenue.sum;
+            }).reduce(function(previousValue, currentValue) {
+                return previousValue + currentValue;
+            });
+
+            data.forEach(function (d) {
+                d.value.percentage = d.value.currentRevenue.sumCumulative / total;
+            });
+        });
+        </code>
+
+        <p>
+            Below, we see the results of <code>clientGrouping.extractData()</code><api-docs anchor="#self.extractData" page="insight.DataSet">insight.DataSet.extractData</api-docs>:
+        </p>
+
+
+        <code class="language-javascript">
+    [
+        {"key": "Globex", "value": {
+            "count": 14,
+            "currentRevenue": { "sum": 26500, "count": 14, "sumCumulative": 26500 },
+            "percentage": 0.452991452991453
+        } },
+        {"key": "Acme Corp", "value": {
+            "count": 8,
+            "currentRevenue": { "sum": 15000, "count": 8, "sumCumulative": 41500 },
+            "percentage": 0.7094017094017094
+        } },
+        {"key": "Wayne Enterprises", "value": {
+            "count": 5,
+            "currentRevenue": { "sum": 9500, "count": 5, "sumCumulative": 51000 },
+            "percentage": 0.8717948717948718
+        } },
+        {"key": "Cyberdyne Systems", "value": {
+            "count": 4,
+            "currentRevenue": { "sum": 7500, "count": 4, "sumCumulative": 58500 },
+            "percentage": 1
+        } }
+    ]
+        </code>
+
+        <p>
+            With all the grouping object containing all the data need, the remaining work is to create the chart.
+        </p>
+        <p>
+            The code below creates the chart object and create the three axes.  To get further details about customising
+            axes, check out <how-to-guide page="axis/chart-style">Axis Customisation</how-to-guide>.
+        </p>
+
+        <code class="language-javascript">
+        var paretoChart = new insight.Chart('Pareto', "#pareto")
+            .width(500)
+            .height(400);
+
+        var clientAxis = new insight.Axis('', insight.scales.ordinal, 'bottom')
+            .tickLabelOrientation('tb')
+            .isOrdered(true);
+
+        var clientRevenueAxis = new insight.Axis('', insight.scales.linear)
+            .tickLabelFormat(insight.formatters.currencyFormatter);
+
+        var cumulativeRevenueAxis = new insight.Axis('', insight.scales.linear)
+            .tickLabelFormat(insight.formatters.percentageFormatter)
+            .hasReversedPosition(true);
+
+        paretoChart.xAxis(clientAxis);
+
+        paretoChart.yAxes([clientRevenueAxis, cumulativeRevenueAxis]);
+        </code>
+
+        <p>
+            For this chart, an <api-docs page="insight.ColumnSeries">insight.ColumnSeries</api-docs> and
+            <api-docs page="insight.LineSeries">insight.LineSeries</api-docs> are needed:
+        </p>
+
+
+        <code class="language-javascript">
+        var clientRevenues = new insight.ColumnSeries('clientColumn', clientGrouping, clientAxis, clientRevenueAxis)
+            .valueFunction(function (d) {
+                return d.value.currentRevenue.sum;
+            })
+            .tooltipFormat(insight.formatters.currencyFormatter);
+
+        var cumulativeRevenue = new insight.LineSeries('percentLine', clientGrouping, clientAxis, cumulativeRevenueAxis)
+            .tooltipFormat(insight.formatters.percentageFormatter)
+            .valueFunction(function (d) {
+                return d.value.percentage;
+            });
+
+        paretoChart.series([clientRevenues, cumulativeRevenue]);
+        </code>
+
+        <p>Finally, we will draw this chart:</p>
+
+        <code class="language-javascript">
+        paretoChart.draw();
+        </code>
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>
+

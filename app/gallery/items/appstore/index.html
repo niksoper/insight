@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<body>
+    <script src="http://d3js.org/d3.v3.min.js"></script>
+    <script type="text/javascript">
+
+        appstore = {
+
+            preprocess : function(data) {
+                data.forEach(function(d)
+                {
+                    d.releaseDate = new Date(d.releaseDate);
+                    d.fileSizeBytes = +d.fileSizeBytes;
+                });
+            },
+
+            createBubbleChart : function(chartGroup, bubbleData) {
+
+                var bubbleChart = new insight.Chart('Bubble Chart', '#bubble-chart')
+                    .width(300)
+                    .height(400);
+
+                var xAxis = new insight.Axis('Average Rating', insight.scales.linear)
+                    .tickFrequency(1);
+
+                var yAxis = new insight.Axis('', insight.scales.linear)
+                    .tickLabelFormat(insight.formatters.currencyFormatter);
+
+                bubbleChart
+                    .xAxis(xAxis)
+                    .yAxis(yAxis);
+
+                var bubbles = new insight.BubbleSeries('bubbles', bubbleData, xAxis, yAxis)
+                    .keyFunction(function(d) {
+                        return d.value.averageUserRating.mean;
+                    })
+                    .valueFunction(function(d) {
+                        return d.value.price.mean;
+                    })
+                    .radiusFunction(function(d) {
+                        return Math.sqrt(d.value.fileSizeBytes.mean);
+                    })
+                    .tooltipFunction(function(d) {
+                        var fileSize = d.value.fileSizeBytes.mean / 1024 / 1024;
+                        return d.key + ": " + Math.round(fileSize) + "MB";
+                    });
+
+                bubbleChart.series([bubbles]);
+                chartGroup.add(bubbleChart);
+            },
+
+            createGenreCountChart: function(chartGroup, genreData){
+
+                var chart = new insight.Chart('Genre Chart', "#genre-count")
+                    .width(450)
+                    .height(400);
+
+                var y = new insight.Axis('', insight.scales.ordinal)
+                    .tickSize(0)
+                    .tickPadding(5)
+                    .isOrdered(true);
+
+                var x = new insight.Axis('', insight.scales.linear)
+                    .hasReversedPosition(true)
+                    .tickPadding(0)
+                    .tickSize(0)
+                    .lineWidth(0)
+                    .lineColor('#fff');
+
+                chart.xAxis(x)
+                    .yAxis(y);
+
+                var series = new insight.RowSeries('genre', genreData, x, y)
+                    .valueFunction(function(d){ return d.value.count; });
+
+                chart.series([series]);
+                chartGroup.add(chart);
+            },
+
+            createLanguageChart: function(chartGroup, languages){
+
+                var chart = new insight.Chart('Language Chart', '#languages')
+                    .width(350)
+                    .height(400);
+
+                var x = new insight.Axis('Language', insight.scales.ordinal)
+                    .isOrdered(true);
+
+                var y = new insight.Axis('', insight.scales.linear);
+
+                chart.xAxis(x)
+                    .yAxis(y);
+
+                var lSeries = new insight.ColumnSeries('languages', languages, x, y)
+                    .top(10);
+
+                chart.series([lSeries]);
+                chartGroup.add(chart);
+            }
+
+        };
+
+        d3.json('datasets/appstore.json', function(data)
+        {
+            appstore.preprocess(data);
+
+            var dataset = new insight.DataSet(data);
+            var chartGroup = new insight.ChartGroup();
+
+            var genreGrouping = dataset.group('genre', function(d)
+            {
+                return d.primaryGenreName;
+            })
+                .sum(['userRatingCount'])
+                .mean(['price', 'averageUserRating', 'userRatingCount', 'fileSizeBytes']);
+
+            var languageGrouping = dataset.group('languages', function(d)
+            {
+                return d.languageCodesISO2A;
+            }, true)
+                .count(['languageCodesISO2A']);
+
+            var genreChart = appstore.createGenreCountChart(chartGroup, genreGrouping);
+            var bubbleChart = appstore.createBubbleChart(chartGroup, genreGrouping);
+            var languageChart = appstore.createLanguageChart(chartGroup, languageGrouping);
+
+            chartGroup.draw();
+
+        });
+
+
+    </script>
+
+    <p>Click on chart elements( bubbles, bars...) to filter the data by that element's value. Tha charts are instantly updated and transition smoothly.</p>
+
+    <div class="row">
+        <div class="col-sm-12 examples">
+            <div class="chartcontainer">
+                <h5 class="chart-title">Total number of Apps by language</h5>
+                <div id="languages" class="chartbox"></div>
+            </div>
+            <div class="chartcontainer">
+                <h5 class="chart-title">App price vs. rating vs. filesize (radius)</h5>
+                <div id="bubble-chart" class="chartbox"></div>
+            </div>
+            <div class="chartcontainer">
+                <h5 class="chart-title">Total number of Apps by genre</h5>
+                <div id="genre-count" class="chartbox"></div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+
+
+
+
+    
+
+

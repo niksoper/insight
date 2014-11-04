@@ -1,0 +1,205 @@
+<section>
+    <div id="container-body" class="container">
+        <h2>How to <span class="how-to-arrow">&#10132;</span> group data</h2>
+        <div class="section-divider"></div>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+        <ul>
+            <li>
+                <a href="#/gettingStarted">Getting started</a>
+            </li>
+            <li>
+                <how-to-guide page="chart/multipleseries">Multiple series</how-to-guide>
+            </li>
+        </ul>
+
+        <h4 class="how-to-header">Objective</h4>
+        <p>We are going to create a chart to see how eye color is distributed in a given population.
+            By the end of this guide we will have the chart below. </p>
+
+        <div id="chart" class="chart-centre"></div>
+
+        <h4 class="how-to-header">An example</h4>
+        <h4><span class="how-to-step">1</span>Prepare the data</h4>
+
+        <p>
+            The data below shows the eye colors and ages of 12 different people (you may recognise this data set from the
+            <a href="#/gettingStarted">Getting Started</a> guide). We wrap this in an InsightJS DataSet object.
+        </p>
+
+        <code class="language-javascript">
+            var data = [
+            { "name": "Michelle Hopper", "age": 26, "eyeColor": "green" },
+            { "name": "Cochran Mcfadden", "age": 22, "eyeColor": "green" },
+            { "name": "Jessie Mckinney", "age": 23, "eyeColor": "brown" },
+            { "name": "Rhoda Reyes", "age": 40, "eyeColor": "brown" },
+            { "name": "Hawkins Wolf", "age": 26, "eyeColor": "green" },
+            { "name": "Lynne O'neill", "age": 39, "eyeColor": "green" },
+            { "name": "Twila Melendez", "age": 26, "eyeColor": "blue" },
+            { "name": "Courtney Diaz", "age": 20, "eyeColor": "brown" },
+            { "name": "Burton Beasley", "age": 36, "eyeColor": "green" },
+            { "name": "Mccoy Gray", "age": 25, "eyeColor": "brown" },
+            { "name": "Janie Benson", "age": 30, "eyeColor": "green" },
+            { "name": "Cherie Wilder", "age": 30, "eyeColor": "green" }
+            ];
+
+            var dataset = new insight.DataSet(data);
+
+        </code>
+
+
+        <h4><span class="how-to-step">2</span>Create a group</h4>
+
+        <p>
+            If you look at the chart above, you will see that the data has been grouped by eye color.
+            To do this we will generate an InsightJS grouping based upon the <code>eyeColor</code> property.
+        </p>
+
+        <p>
+            In the code below,
+            we have named the grouping <code>'eye-color'</code> and defined a function that groups the data.
+            We can also add the following useful properties to the grouping:
+        </p>
+        <ul>
+            <li>
+                <api-docs page="insight.Grouping" anchor="#self.cumulative">cumulative</api-docs>
+            </li>
+            <li>
+                <api-docs page="insight.Grouping" anchor="#self.mean">mean</api-docs>
+            </li>
+            <li>
+                <api-docs page="insight.Grouping" anchor="#self.sum">sum</api-docs>
+            </li>
+        </ul>
+        <p>
+            We have added a <code>mean</code> property which takes the mean of the ages for each eye color.
+            See <a target="_blank" href="InsightJS/dist/docs/insight.DataSet.html##self.group">insight.DataSet.group <span
+                class="badge">API</span></a> for more details.
+        </p>
+
+        <code class="language-javascript">
+            var eyeColorGrouping = dataset.group('eye-color', function(d) { return d.eyeColor; })
+                .mean(['age']);
+
+        </code>
+
+
+        <h4 class="how-to-header">Understanding grouping</h4>
+
+        <p>
+            We can see what an InsightJS grouping actually looks like by calling <code>eyeColorGrouping.rawData()</code><api-docs anchor="#self.rawData" page="insight.DataSet">insight.DataSet.rawData</api-docs> and looking
+            at  the first entry:
+        </p>
+        <code class="language-javascript">
+            {
+                "key":"blue",
+                "value":{
+                    "count":1,
+                    "age":{
+                        "sum":26,
+                        "count":1,
+                        "mean":26
+                    }
+                }
+            }
+        </code>
+
+        <p>
+            You might ask what the above actually means.
+        </p>
+
+        <ul>
+            <li>The <code>key</code> property refers to the value the data set
+                was grouped by.
+            </li>
+            <li>The <code>value</code> property is where the grouping stores all its aggregated values.</li>
+        </ul>
+
+        <p>
+            By default, the <code>value</code> property will contain the
+            number of records that match the <code>key</code>.
+
+        </p>
+
+        <h4 ><span class="how-to-step">3</span>Create the chart</h4>
+
+        <p>
+            Our chart is created with a <how-to-guide page="chart/legend">legend</how-to-guide>
+            as well as a custom width and height.
+        </p>
+
+        <code class="language-javascript">
+            var chart = new insight.Chart('EyeColors', '#chart')
+                .width(350)
+                .height(350)
+                .legend(new insight.Legend());
+
+        </code>
+
+        <h4><span class="how-to-step">4</span>Create the Axes</h4>
+
+        <p>
+            In this chart, we are using an ordinal x-axis for the eye colors, a linear y-axis for the number of
+            people with each eye color and second linear y-axis for the average age of people.
+        </p>
+
+        <code class="language-javascript">
+            var x = new insight.Axis('Eye Color', insight.scales.ordinal);
+            var y1 = new insight.Axis('', insight.scales.linear);
+            var y2 = new insight.Axis('', insight.scales.linear)
+                .hasReversedPosition(true);
+
+            chart.xAxis(x);
+            chart.yAxes([y1, y2]);
+
+        </code>
+
+        <p>
+            We have provided an <how-to-guide page="style/chart-style">Axis Styling</how-to-guide>, to explain how to carry
+            out more advanced customisations.
+        </p>
+
+        <h4><span class="how-to-step">5</span>Add the column series</h4>
+
+        <p>
+            We create a column series using the <code>value.count</code> property as the value function. The key function
+            will default to the <code>key</code> property of the grouping object.
+        </p>
+
+        <code class="language-javascript">
+            var columns = new insight.ColumnSeries('People', eyeColorGrouping, x, y1)
+                .valueFunction(function(d){
+                    return d.value.count;
+                });
+
+        </code>
+
+        <h4><span class="how-to-step">6</span>Add the marker series</h4>
+
+        <p>
+            We create a marker series using the <code>value.age.mean</code> property as the value function.</p>
+
+        <code class="language-javascript">
+            var markers = new insight.MarkerSeries('Age', eyeColorGrouping, x, y2)
+                .valueFunction(function(d){
+                    return d.value.age.mean;
+                });
+
+
+            chart.series([columns, markers]);
+
+        </code>
+
+        <h4><span class="how-to-step">7</span>Draw the chart</h4>
+
+        <code class="language-javascript">
+            chart.draw();
+
+        </code>
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>

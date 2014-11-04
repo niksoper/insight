@@ -1,0 +1,126 @@
+<section>
+    <div id="container-body" class="container">
+        <h2>How to <span class="how-to-arrow">&#10132;</span> Load data</h2>
+        <div class="section-divider"></div>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+        <ul>
+            <li>
+                <a href="#/gettingStarted">Getting started</a>
+            </li>
+        </ul>
+
+        <h4 class="how-to-header">Objective</h4>
+        <p>We'll examine the various ways data can be loaded for a chart to use.</p>
+        <div class="load-data-item">1<span class="orange-color">.</span> Static data</div>
+        <div class="load-data-item">2<span class="orange-color">.</span> Loading JSON using D3</div>
+        <div class="load-data-item">3<span class="orange-color">.</span> Loading JSON using Angular Js</div>
+
+        <h4 class="how-to-header">Set up</h4>
+        <div class="section-divider"></div>
+
+        <p>We'll take a very simple chart and wrap it in a function so it can be re-used with different data. In this case it'll be the same data but loaded using different methods.</p>
+
+        <code class="language-javascript">
+            var chartData = function(data, chartElementId) {
+
+                var dataset = new insight.DataSet(data);
+                var chart = new insight.Chart('Ages', chartElementId)
+                    .width(500)
+                    .height(350);
+
+                var x = new insight.Axis('Age', insight.scales.linear);
+                var y = new insight.Axis('', insight.scales.ordinal);
+                chart.xAxis(x);
+                chart.yAxis(y);
+                var rows = new insight.RowSeries('rows', dataset, x, y)
+                    .keyFunction(function (person) {
+                        return person.name;
+                    })
+                    .valueFunction(function (person) {
+                        return person.age;
+                    });
+
+                chart.series([rows]);
+                chart.draw();
+            };
+        </code>
+
+        <h4 class="how-to-header">Static data</h4>
+        <div class="section-divider"></div>
+
+        <p>The data can be defined statically in code. You can see how each object in the array is structured and how that relates to the key and value functions of the series.</p>
+
+        <code class="language-javascript">
+            var staticData = [
+                { 
+                    "name": "Michelle Hopper", 
+                    "age": 26, 
+                    "eyeColor": "green" 
+                },
+                { "name": "Cochran Mcfadden", "age": 22, "eyeColor": "green" },
+                { "name": "Jessie Mckinney", "age": 23, "eyeColor": "brown" },
+                { "name": "Rhoda Reyes", "age": 40, "eyeColor": "brown" },
+                { "name": "Hawkins Wolf", "age": 26, "eyeColor": "green" },
+                { "name": "Lynne O'neill", "age": 39, "eyeColor": "green" },
+                { "name": "Twila Melendez", "age": 26, "eyeColor": "blue" },
+                { "name": "Courtney Diaz", "age": 20, "eyeColor": "brown" },
+                { "name": "Burton Beasley", "age": 36, "eyeColor": "green" },
+                { "name": "Mccoy Gray", "age": 25, "eyeColor": "brown" },
+                { "name": "Janie Benson", "age": 30, "eyeColor": "green" },
+                { "name": "Cherie Wilder", "age": 30, "eyeColor": "green" }
+            ];
+        </code>
+
+        <p>Then call the drawing function.</p>
+
+        <code class="language-javascript">
+            chartData(staticData, '#static-chart');
+        </code>
+
+        <div id="static-chart" class="chart-centre"></div>
+
+        <h4 class="how-to-header">Loading JSON using D3</h4>
+        <div class="section-divider"></div>
+
+        <p>The data can be loaded from a JSON file using D3. This is usefull as D3 is a dependency of Insight.js so it should be available.
+         The d3.json call takes a filepath and callback function which is invoked once the file is loaded.</p>
+
+        <code class="language-javascript">
+            d3.json('datasets/eye_color.json', function(data) {
+
+                // call the drawing function
+                chartData(data, '#d3-chart');
+            };
+        </code>
+
+        <div id="d3-chart" class="chart-centre"></div>
+
+        <h4 class="how-to-header">Loading JSON using Angular Js</h4>
+        <div class="section-divider"></div>
+
+        <p>If you're using <a href="https://angularjs.org/" target="_blank">Angular</a> and you'd like to keeps the code consistent then loading the JSON data via Angular would be a good idea as it can provide caching and hide the loading as part of a service. Below we'll show the simplest way, using http get</p>
+
+        <code class="language-javascript">
+            var App = angular.module('App', []);
+
+            App.controller('LoadingDataController', function($scope, $http) {
+                // define chartData beforehand and in scope
+                var chartData = function(data, chartElementId) { ... };
+
+                $http.get('datasets/eye_color.json')
+                    .then(function(response){
+                        chartData(response.data, '#angular-chart');
+                    });
+            });
+        </code>
+
+        <div id="angular-chart" class="chart-centre"></div>
+
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>

@@ -2,7 +2,6 @@ body {
     font: 14px/1.5 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #2c3e50;
     font-weight: 300;
-    background-color: rgb(255, 248, 244);
 }
 
 h1, h2, h3 {
@@ -14,7 +13,46 @@ img
     max-width: 100%; 
 }
 
+.show-code-button {
+    position: relative;
+    left: 94px;
+    top: 20px;
+    background: #C2D7F9;
+    width: 170px;
+    height: 30px;
+    border-radius: 8px;
+    font-weight: bold;
+    padding: 4px 0px 0px 14px;
 
+}
+
+.show-code-button.selected {
+    color: #fff;
+    background: #0C254D;
+}
+
+.language-javascript.loading {
+    -webkit-animation: showCode 1s;
+    animation: showCode 1s;
+}
+
+@-webkit-keyframes showCode {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+@keyframes showCode {
+    from {opacity: 0;}
+    to {opacity: 1;}
+}
+
+.code-viewer {
+    margin-top: 20px;
+}
+
+.hover:hover .tooltip {
+    opacity:1;
+}
 
 /* Index Styles */
 
@@ -101,7 +139,6 @@ img
 
 .container p
 {
-  font-weight: initial;
   line-height: 1.5em;
 }
 
@@ -241,12 +278,6 @@ button.selected {
   border-color: #aaa;
 }
 
-#correlationDiv {
-  width:90%;
-  text-align:right;
-  position:absolute;
-  z-index:100;
-}
 
 a.filter-link {
     cursor: pointer;
@@ -279,3 +310,194 @@ pre.language-javascript {
     color: #eee;
     border-radius: 5px;
 }
+
+.chart-centre > * {
+    display: block !important;
+    margin: 20px auto;
+}
+
+.disabled-link {
+    pointer-events: none;
+}
+
+h1,h2,h3,h4,h5,h6,.h1,.h2,.h3,.h4,.h5,.h6 {
+    font-weight: 500;
+}
+
+h1,h2,h3,.h1,.h2,.h3 {
+    margin-top: 35px;
+}
+
+h4,h5,h6,.h4,.h5,.h6 {
+    margin-top: 30px;
+}
+
+/* How To Styles */
+
+.section-divider {
+    background: -webkit-linear-gradient(left, #ddd, white); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(right, #ddd, white); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(right, #ddd, white); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to right, #ddd, white); /* Standard syntax */
+    height: 1px;
+    width: 100%;
+}
+
+.how-to-arrow {
+    color: #FF9100;
+    font-family: monospace;
+}
+
+.how-to-header {
+    border-left-color: #FF9100;
+    border-left-style: solid;
+    border-left-width: 2px;
+    padding-left: 10px;
+}
+
+.how-to-indent {
+    margin-left: 13px;
+}
+
+.how-to-index-indent {
+    margin-left: 100px;
+}
+
+.how-to-section {
+    padding-top: 50px;
+}
+
+.how-to-index-link-item {
+    font-size: 20px;
+    width: 260px;
+    height: 40px;
+    display: block;
+    margin-top: 4px;
+    text-decoration: none;
+    padding: 5px;
+    margin-left: 160px;
+}
+
+.how-to-index-heading {
+    font-size: 26px;
+    width: 120px;
+    height: 50px;
+    display: block;
+    margin-top: 40px;
+    text-decoration: none;
+    padding: 5px;
+    text-align: center;
+    color: #00407E;
+    border-left-color: #FF9100;
+    border-left-style: solid;
+    border-left-width: 2px;
+}
+
+.how-to-index-link-item:hover {
+    text-decoration: none;
+    background: #2DA5E4;
+    color: #FFFFFF;
+}
+
+.how-to-index-item {
+    background: #003556;
+    border-radius: 10px;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+}
+
+.anchor-button {
+    font-size: 20pt;
+    cursor: pointer;
+    width: 40%;
+}
+
+.anchor-button:hover {
+    background: #5FB6FF;
+    color: #fff;
+}
+
+.top-anchor-button {
+    float: right;
+    font-size: 16pt;
+    padding-top: 14px;
+    cursor: pointer;
+}
+
+.heading-emphasis {
+    color: #FF9100;
+}
+
+.chart-title {
+    text-align: center;
+    font-weight: bold;
+
+}
+
+.how-to-step {
+  background: #2E9FDA;
+  color: #fff;
+  width: 26px;
+  display: inline-block;
+  text-align: center;
+  height: 25px;
+  margin-right: 18px;
+  font-size: 16pt;
+}
+
+.gallery-item-thumb {
+  width: 200px;
+  height: 150px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 1px;
+}
+
+.min-scrollbar {
+  min-height: 2000px;
+}
+
+
+.gallery-item-header {
+  font-size: 25px;
+  font-weight: 400;
+  width: 300px;
+  height: 50px;
+  display: block;
+  margin-top: 4px;
+  text-decoration: none;
+  padding: 5px 0px 0px 20px;
+  text-align: center;
+}
+
+.load-data-item {
+  font-weight: 400;
+  margin-left: 40px;
+  font-size: 12pt;
+}
+
+.orange-color {
+  color: #FF9100;
+}
+
+.gallery-item {
+  float: left;
+  width: 300px;
+  border-color: #FF9400;
+  border-style: solid;
+  border-width: 1px;
+  margin: 5px;
+}
+
+.gallery-item:hover {
+  text-decoration: none;
+  background: #2DA5E4;
+  color: #FFFFFF;
+}
+
+.gallery-items-container {
+  height: 300px;
+}
+
+

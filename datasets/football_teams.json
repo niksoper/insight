@@ -1,0 +1,56 @@
+[
+    {
+        "teamName": "Chuffed FC",
+        "currentPosition": 5,
+        "targetPoints": 50,
+        "currentPoints": 18
+    },
+    {
+        "teamName": "Old Boys",
+        "currentPosition": 3,
+        "targetPoints": 45,
+        "currentPoints": 27
+    },
+    {
+        "teamName": "Hairy Harriers",
+        "currentPosition": 1,
+        "targetPoints": 90,
+        "currentPoints": 35
+    },
+    {
+        "teamName": "Crunchy Leaves",
+        "currentPosition": 2,
+        "targetPoints": 40,
+        "currentPoints": 34
+    },
+    {
+        "teamName": "Wistfullness",
+        "currentPosition": 6,
+        "targetPoints": 35,
+        "currentPoints": 18
+    },
+    {
+        "teamName": "Wasters",
+        "currentPosition": 7,
+        "targetPoints": 3,
+        "currentPoints": 10
+    },
+    {
+        "teamName": "Dreamers",
+        "currentPosition": 8,
+        "targetPoints": 74,
+        "currentPoints": 2
+    },
+    {
+        "teamName": "Posers",
+        "currentPosition": 4,
+        "targetPoints": 65,
+        "currentPoints": 20
+    },
+    {
+        "teamName": "Comfortably Cold",
+        "currentPosition": 3,
+        "targetPoints": 38,
+        "currentPoints": 22
+    }
+]

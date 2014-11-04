@@ -7,11 +7,11 @@
     <link rel="shortcut icon" href="favicon.png" />
     <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Open+Sans|PT+Sans" />
     <link href="css/prism.css" rel="stylesheet" />
-    <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="//bootswatch.com/yeti/bootstrap.min.css">
     <link rel="stylesheet" href="./InsightJS/dist/insight.min.css">
     <link rel="stylesheet" href="//bootswatch.com/assets/css/bootswatch.min.css">
-    <link href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="css/style.css">
 
     <script>
     (function(i, s, o, g, r, a, m) {
@@ -47,15 +47,19 @@
             <div id="navbar-main" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav navbar-right">
                     <li>
-                        <!-- Download button -->
                         <a href="insight.js.zip" download="insight.js.zip">Download</a>
                     </li>
                     <li>
-                        <!-- Quickstart -->
-                        <a target="_blank" href="https://github.com/ScottLogic/insight/wiki/Quickstart-Guide">Getting Started</a>
+                        <a href="#/gettingStarted/">Getting Started</a>
                     </li>
                     <li>
-                        <!-- Resources -->
+                        <a href="#/gallery/">Gallery</a>
+                    </li>
+                    <li>
+                        <a href="#/how-to/">How-to Guides</a>
+                    </li>
+                    <li>
+
                         <li class="dropdown">
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">Resources <b class="caret"></b></a>
                             <ul class="dropdown-menu">
@@ -67,17 +71,6 @@
                                 </li>
                                 <li>
                                     <a target="_blank" href="https://github.com/ScottLogic/insight/issues/new">Report Issue</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </li>
-                    <li>
-                        <!-- Demos -->
-                        <li class="dropdown">
-                            <a href="" class="dropdown-toggle" data-toggle="dropdown">Demos <b class="caret"></b></a>
-                            <ul class="dropdown-menu">
-                                <li ng-repeat="example in examples">
-                                    <a href="#/example/{{example.name}}">{{example.pageName}}</a>
                                 </li>
                             </ul>
                         </li>
@@ -101,17 +94,14 @@
     <script src="lib/angular.min.js"></script>
     <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
     <script src="lib/ui-bootstrap-0.11.0.min.js"></script>
-    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.7/crossfilter.min.js"></script>
+    <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.11/crossfilter.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"></script>
     <script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3-tip/0.6.3/d3-tip.min.js"></script>
     <script src="lib/angular-route.min.js"></script>
     <script src="lib/angular-resource.min.js"></script>
     <script src="lib/prism.min.js" data-manual></script>
     <script type="text/javascript" src="./InsightJS/dist/insight.min.js"></script>
-    <script src="js/app.js"></script>
-    <script src="js/insightChartsControllers.js"></script>
-    <script src="js/insightChartsServices.js"></script>
-    <script src="js/directives/escapeKeyDirective.js"></script>
+    <script src="app/app.dist.js"></script>
 </body>
 
 </html>

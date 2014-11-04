@@ -1,0 +1,116 @@
+<section>
+    <div id="container-body" class="container">
+        <h2>How to 
+            <span class="how-to-arrow">&#10132;</span> Use an interactive axis
+        </h2>
+        <div class="section-divider"></div>
+
+        <h4 class="how-to-header">Prerequisites</h4>
+        <ul>
+            <li><a href="#/gettingStarted">Getting started</a></li>
+        </ul>
+
+        <h4 class="how-to-header">Objective</h4>
+        <p class="how-to-indent">
+            This guide explains how to create a chart with an interactive axis like the one below.
+        </p>
+        <p class="how-to-indent">
+            Try using the mouse wheel to zoom in/out of the chart, and click-drag to pan through the data.
+            You can also zoom and pan using touch gestures.
+        </p>
+
+
+        <div id="interactive-chart" class="chart-centre"></div>
+
+        <h4 class="how-to-header">Why use an interactive axis?</h4>
+        <p class="how-to-indent">
+            Sometimes it can be easier to display a small window of the data, and allow the user to pan the window through
+            the data.
+        </p>
+
+        <h4 class="how-to-header">Example</h4>
+        <h4><span class="how-to-step">1</span>Prepare the data</h4>
+        <p class="how-to-indent">
+            For this guide we are generating a data set that consists of a section of a sine wave.
+        </p>
+
+        <code class="language-javascript">
+            var sinData = [];
+            for (var degrees = 0; degrees < 360 * 3; degrees += 15) {
+
+            var radians = degrees * Math.PI / 180;
+
+            sinData.push({
+            x: degrees,
+            y: Math.sin(radians) + 1
+            });
+            }
+
+            var dataset = new insight.DataSet(sinData);
+
+        </code>
+
+        <h4><span class="how-to-step">2</span>Create the chart</h4>
+        <p class="how-to-indent">Our chart is created with a custom width, height and title.</p>
+
+        <code class="language-javascript">
+            var chart = new insight.Chart('sin', '#chart')
+            .width(450)
+            .height(250)
+            .title('y = sin(x) + 1');
+        </code>
+
+        <h4><span class="how-to-step">3</span>Create the axes</h4>
+        <p class="how-to-indent">We add two linear axes to the chart.</p>
+
+        <code class="language-javascript">
+            var x = new insight.Axis('x', insight.scales.linear);
+            var y = new insight.Axis('y', insight.scales.linear);
+
+            chart.xAxis(x);
+            chart.yAxis(y);
+        </code>
+
+        <h4><span class="how-to-step">4</span>Make the axis interactive</h4>
+        <p class="how-to-indent">
+            The interactive axis is set using
+            <api-docs page="insight.Chart" anchor="#self.setInteractiveAxis">insight.Chart.setInteractiveAxis</api-docs>.
+        </p>
+
+        <code class="language-javascript">
+            chart.setInteractiveAxis(x);
+        </code>
+
+        <h4><span class="how-to-step">5</span>Add the line series</h4>
+        <p class="how-to-indent">Create a line series using the x and y values as key and value functions, then add it to the chart.</p>
+
+        <code class="language-javascript">
+            var line = new insight.LineSeries('sin-x', dataset, x, y)
+            .keyFunction(function(d){
+            return d.x;
+            })
+            .valueFunction(function(d){
+            return d.y;
+            });
+
+            chart.series([line]);
+        </code>
+
+        <p class="how-to-indent">
+            See <api-docs page="insight.LineSeries">insight.LineSeries</api-docs>
+            for more detail about what you can do with a line series.
+        </p>
+
+        <h4><span class="how-to-step">6</span>Draw the chart</h4>
+
+        <code class="language-javascript">
+            chart.draw();
+        </code>
+    </div>
+</section>
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>
+

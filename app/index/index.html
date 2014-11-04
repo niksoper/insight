@@ -1,0 +1,77 @@
+<div id="container-body" class="container" ng-escape-key="clearFilters()">
+    <div class="row">
+        <div class="col-sm-4">
+            <div class="colorbox features">
+                <h2>Charting and Analysis</h2>
+                <ul>
+                    <li>
+                        <b>Group and sort</b> to reveal trends</li>
+                    <li>
+                        <b>Filter and highlight</b> to focus your data</li>
+                    <li>Custom theming</li>
+                    <li>Open source</li>
+                    <li>Extensive Documentation</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-sm-8">
+            <div class="colorbox did-you-know">
+                <h2>Did you know?</h2>
+                <p>From analyzing 75,000 apps from the iTunes App Store, we found that;</p>
+                <ul>
+                    <li>
+                        <a class="filter-link" ng-click="filter(['Navigation'], [])">Navigation</a>
+                        is the most expensive genre and has the largest average file size
+                    </li>
+                    <li>
+                        <a class="filter-link" ng-click="filter(['Navigation'], ['ZH'])">Chinese Navigation apps</a>
+                        are more expensive (and smaller) than
+                        <a class="filter-link" ng-click="filter(['Navigation'], ['EN'])">English Navigation apps</a>
+                    </li>
+                    <li>
+                        There are more Business apps than Games supporting
+                        <a class="filter-link" ng-click="filter(['Business', 'Games'], ['DE'])">German</a>
+                        ,
+                        <a class="filter-link" ng-click="filter(['Business', 'Games'], ['PT'])">Portuguese</a>
+                        or
+                        <a class="filter-link" ng-click="filter(['Business', 'Games'], ['RU'])">Russian</a>
+
+                    </li>
+                </ul>
+                </p>
+                <p>
+                    <a class="filter-link" ng-click="clearFilters()">Start from scratch (Esc)</a>
+                    and find your own interesting patterns by clicking the bars and bubbles below!
+                </p>
+
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 examples">
+            <div class="chartcontainer">
+                <h5 class="chart-title">Total number of Apps by language</h5>
+                <div id="languages" class="chartbox"></div>
+                <div class="show-code-button" ng-class="{'selected': selectedId=='languages'}" ng-click="showChartCode('languages', 'app/snippets/languageChart.js')" >Show me the code!</div>
+            </div>
+            <div class="chartcontainer">
+                <h5 class="chart-title">App price vs. rating vs. filesize (radius)</h5>
+                <div id="bubble-chart" class="chartbox"></div>
+                <div class="show-code-button" ng-class="{'selected': selectedId=='bubble-chart'}" ng-click="showChartCode('bubble-chart', 'app/snippets/bubbleChart.js')">Show me the code!</div>
+            </div>
+            <div class="chartcontainer">
+                <h5 class="chart-title">Total number of Apps by genre</h5>
+                <div id="genre-count" class="chartbox"></div>
+                <div class="show-code-button" ng-class="{'selected': selectedId=='genre-count'}" ng-click="showChartCode('genre-count', 'app/snippets/genreChart.js')">Show me the code!</div>
+            </div>
+        </div>
+        <div class="col-sm-12 code-viewer"  code-highlight-redraw>
+            <div id="codeContainer"></div>
+        </div>
+    </div>
+</div>
+
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott Logic</a>
+    </footer>
+</div>

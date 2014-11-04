@@ -1,0 +1,52 @@
+<div ng-controller="HowToStyleChartController">
+    <h2>How to <span class="how-to-arrow">&#10132;</span> Style a chart</h2>
+    <div class="section-divider"></div>
+
+    <h4 class="how-to-header">Prerequisites</h4>
+    <ul>
+        <li>
+            <a href="#/gettingStarted">Getting started</a>
+        </li>
+    </ul>
+
+    <h4 class="how-to-header">How to change the chart's style</h4>
+    <p class="how-to-indent">
+        Call the appropriate method on the chart. Then call the chart's draw function to see the change.
+    </p>
+
+    <h4 class="how-to-header">Example</h4>
+
+    <p class="how-to-indent">
+        Taking the example chart from the <a href="#/gettingStarted">Getting started</a> guide, we will change the color of the series.
+        Here is the chart we created in the getting started guide with a default theme.
+    </p>
+
+    <div id="theme-chart-default-theme" class="chart-centre"></div>
+
+    <p class="how-to-indent">
+        A series palette specifies the color for each series added to the chart. Since our chart has one series, it uses the first color we specify.
+        Here I've taken the colors from the <api-docs page="insight.WarmTheme" anchor="#self.textAnchor">insight.WarmTheme</api-docs>
+    </p>
+
+    <div class="how-to-indent">
+        <code class="language-javascript">
+            chart.seriesPalette(['#A60303', '#FFAD00', '#FF2F00', '#BD7217', '#873300']);
+            chart.draw();
+        </code>
+    </div>
+
+    <div id="theme-chart-full-theme" class="chart-centre" ></div>
+
+    <h4 class="how-to-header">Further details</h4>
+    <p class="how-to-indent">
+        Every chart is initialized with the default theme which can be overridden. A full list of methods that change the chart's
+        style can be found in the API documentation for chart.
+    </p>
+
+    <ul>
+        <li><a target="_blank" href="InsightJS/dist/docs/insight.Chart.html">API Documentation for chart</a></li>
+        <li><a class="disabled-link" href="#">How-to Guides</a></li>
+        <li><a class="disabled-link" href="#">InsightJS Gallery</a></li>
+    </ul>
+</div>
+

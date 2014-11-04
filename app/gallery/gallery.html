@@ -1,0 +1,33 @@
+<section>
+    <div id="container-body" class="container min-scrollbar">
+        <h2>Chart gallery</h2>
+        <div class="section-divider"></div>
+        
+        <div ng-init="loadItems()" class="gallery-items-container">
+        	<div ng-repeat="item in items">
+                <div class="gallery-item">
+            		<div class="gallery-item-header" ng-click="setTemplate(item)">{{item.title}}</div>
+            		<div ng-click="setTemplate(item)" class="gallery-item-thumb">
+                        <img ng-src="app/gallery/items/{{item.thumbnail}}">
+                    </div>
+                </div>
+        	</div>
+        </div>
+        <div class="section-divider"></div>
+
+        <h2 class="how-to-header">{{currentItem.title}}</h2>
+        <div ng-if="template !== undefined" ng-include="template"></div>
+
+        <div >
+            <div id="gallery-chart"></div>
+            <div class="section-divider"></div>
+            <h3>Index.html</h3>
+            <code id="gallery-code" id="codeItem" class="language-javascript loading"></code>
+        </div>
+
+    </div>
+    <div id="footer" class="container">
+        <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott Logic</a>
+        </footer>
+    </div>
+</section>

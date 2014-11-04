@@ -1,0 +1,217 @@
+<div id="container-body" class="container">
+<h2>Getting Started</h2>
+
+<h3>Installation</h3>
+
+<p>
+    The easiest way to get started with InsightJS is to include the following CDNs in your html page:
+
+    <code class="language-markup">
+    &lt;link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/insightjs/1.2.0/insight.min.css"&gt;
+
+    &lt;script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/crossfilter/1.3.11/crossfilter.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/d3/3.4.11/d3.min.js"&gt;&lt;/script&gt;
+    &lt;script type="text/javascript" src="//cdnjs.cloudflare.com/ajax/libs/insightjs/1.2.0/insight.min.js"&gt;&lt;/script&gt;
+
+</code>
+    If you would like to install InsightJS manually, the library files are available for <a href="insight.js.zip">download</a>.
+    You will also need to download <a target="_blank" href="https://github.com/mbostock/d3">d3.js</a> and
+    <a target="_blank" href="https://github.com/square/crossfilter/">crossfilter</a>, and these should be included in your html before InsightJS.
+</p>
+
+<h3>Objective</h3>
+
+<p>We are going to create a basic chart showing the ages of a group of 12 people. By the end of this guide we
+    will have the chart below.</p>
+
+<p>Either read on or take a sneak peek at the code using
+    <a target="_blank" href="http://jsfiddle.net/cvLet9dt/">JSFiddle</a>.</p>
+
+<div id="chart" class="chart-centre"></div>
+
+
+<h3>Importing a Data Set</h3>
+
+<p>Before using the tools that InsightJS has to offer we will need some data to analyse. </p>
+
+<p>Below we have supplied sample data containing the names, ages and eye colors of 12 different people.</p>
+
+<code class="language-javascript">
+    var data = [
+        { "name": "Michelle Hopper", "age": 26, "eyeColor": "green" },
+        { "name": "Cochran Mcfadden", "age": 22, "eyeColor": "green" },
+        { "name": "Jessie Mckinney", "age": 23, "eyeColor": "brown" },
+        { "name": "Rhoda Reyes", "age": 40, "eyeColor": "brown" },
+        { "name": "Hawkins Wolf", "age": 26, "eyeColor": "green" },
+        { "name": "Lynne O'neill", "age": 39, "eyeColor": "green" },
+        { "name": "Twila Melendez", "age": 26, "eyeColor": "blue" },
+        { "name": "Courtney Diaz", "age": 20, "eyeColor": "brown" },
+        { "name": "Burton Beasley", "age": 36, "eyeColor": "green" },
+        { "name": "Mccoy Gray", "age": 25, "eyeColor": "brown" },
+        { "name": "Janie Benson", "age": 30, "eyeColor": "green" },
+        { "name": "Cherie Wilder", "age": 30, "eyeColor": "green" }
+    ];
+
+</code>
+
+<p>
+    In order to chart this data, we will first need to create an
+    <api-docs page="insight.DataSet">insight.DataSet</api-docs> object.
+    The data we use to initialise the data set should be an array of objects.
+</p>
+
+<code class="language-javascript">
+    var dataset = new insight.DataSet(data);
+
+</code>
+
+<h3>Creating a Chart</h3>
+
+<p>
+    Now let's walk through the process of creating a simple chart.
+</p>
+
+
+<p>
+    In the code below we initialise a chart object with a name and the id of the DOM element where we want to place the
+    chart.
+</p>
+
+<code class="language-javascript">
+    var chart = new insight.Chart('Ages', '#chart')
+        .width(500)
+        .height(350);
+
+</code>
+
+<p>
+    We have also set the width and height of this chart in the code above. Without explicitly
+    stating these settings the width and height will default to 300px.
+</p>
+
+
+<h4>Choosing the Axes</h4>
+
+<p>
+    Now, with the chart initialised we need to define the axes.
+
+    The first decision we need to make is which scale to use for each axis. There are three options:
+</p>
+<ul>
+    <li><api-docs page="insight.scales" anchor="insight.scales.linear">insight.scales.linear</api-docs></li>
+    <li><api-docs page="insight.scales" anchor="insight.scales.ordinal">insight.scales.ordinal</api-docs></li>
+    <li><api-docs page="insight.scales" anchor="insight.scales.time">insight.scales.time</api-docs></li>
+
+</ul>
+<p>
+    In this chart, we are using a linear x-axis for the ages and an ordinal y-axis for the names of people.
+</p>
+
+<p>
+    We initialise each axis below with a title and the appropriate value from <code>insight.scales</code>.
+</p>
+
+<code class="language-javascript">
+    var x = new insight.Axis('Age', insight.scales.linear);
+    var y = new insight.Axis('', insight.scales.ordinal);
+
+</code>
+
+<p>
+    We have provided an <how-to-guide page="axis-customisation">Axis Styling</how-to-guide>, to explain how to carry
+    out more advanced customisations.
+</p>
+
+<p>
+    With these axes created, we must not forget to associate them with the chart:
+</p>
+
+<code class="language-javascript">
+    chart.xAxis(x);
+    chart.yAxis(y);
+
+</code>
+
+<h4>Adding a Series</h4>
+
+<p>
+    A series object is responsible for transforming data into a visual representation that can be used by a chart.
+</p>
+
+<p>
+    For this chart, we will use an <api-docs page="insight.RowSeries">insight.RowSeries</api-docs>. In the code below
+    we have called this series <code>'rows'</code> and provided it with our previously created data set and axes.
+</p>
+
+<code class="language-javascript">
+    var rows = new insight.RowSeries('rows', dataset, x, y)
+        .keyFunction(function(person) {
+            return person.name;
+        })
+        .valueFunction(function(person) {
+            return person.age;
+        });
+
+</code>
+
+<p>
+    The x value of a row series is given by
+    <api-docs page="insight.RowSeries" anchor="#self.valueFunction">insight.RowSeries.valueFunction</api-docs>.
+    In this case we used the <code>age</code> property to get the age of each person in our data set.
+</p>
+
+<p>
+    Similarly, the y value of a row series is given by
+    <api-docs page="insight.RowSeries" anchor="#self.keyFunction">insight.RowSeries.keyFunction</api-docs>.
+    In this case we used the <code>name</code> property to get the name of each person in our data set.
+</p>
+
+<p>
+    Now that we have our row series we need to associate it with the chart object:
+</p>
+
+<code class="language-javascript">
+    chart.series([rows]);
+
+</code>
+
+
+<h4>Displaying the Chart</h4>
+
+<p>
+    At this point, our chart will still not be visible on the page so we need to tell InsightJS to draw it.
+</p>
+
+<code class="language-javascript">
+    chart.draw();
+
+</code>
+
+<p>
+    Congratulations, you have created your first chart!
+</p>
+
+<h3>Where next ...</h3>
+
+<p>
+   Now, that you have mastered the basics of creating charts you are ready to start making interesting
+    discoveries about your own data with InsightJS.
+</p>
+<p>
+   There's so much more than what we have been able to show you in this quick introduction. In order to use
+    InsightJS to its full potential you should take a look at our:
+</p>
+
+<ul>
+    <li><a href="/#/how-to">How-to Guides</a></li>
+    <li><api-docs page="index">Documentation</api-docs></li>
+    <li><a href="/#/gallery">InsightJS Gallery</a></li>
+</ul>
+</div>
+
+
+<div id="footer" class="container">
+    <footer>Insight.js is an open source project created and maintained by <a target="_blank" href="//scottlogic.com">Scott
+        Logic</a>
+    </footer>
+</div>

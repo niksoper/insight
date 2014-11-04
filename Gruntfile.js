@@ -10,8 +10,21 @@ module.exports = function(grunt) {
         pkg: grunt.file.readJSON('package.json'),
         concat: {
           dist: {
-              src: ['js/controllers/*.js', 'js/snippets/*.js'],
-              dest: 'js/insightChartsControllers.js'
+              src: [
+                  'app/app.module.js',
+                  'app/app.routes.js',
+                  'app/controllers/*.js',
+                  'app/services/*.js',
+                  'app/directives/*.js',
+                  'app/snippets/*.js',
+                  'app/index/*.js',
+                  'app/gallery/*.js',
+                  'app/components/*.js',
+                  'app/getting-started/*.js',
+                  'app/how-to/*/*.js',
+                  'app/how-to/*/*/*.js'
+              ],
+              dest: 'app/app.dist.js'
           }
         },
         connect: {
@@ -33,7 +46,7 @@ module.exports = function(grunt) {
             }
         },
         jshint: {
-            files: ['js/**/*.js', '!lib/*.js'],
+            files: ['app/**/*.js', '!lib/*.js'],
             options: {
                 // options here to override JSHint defaults
                 globals: {
@@ -45,7 +58,7 @@ module.exports = function(grunt) {
             }
         },
         "jsbeautifier": {
-            files: ["./js/*.js", "./examples/*.js"],
+            files: ["./app/*.js", "./examples/*.js"],
             options: {
                 js: {
                     braceStyle: 'expand',
