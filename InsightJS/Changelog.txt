@@ -1,3 +1,9 @@
+=== Version 1.3.0 (18-Nov-2014) ===
+
+* Library changes:
+  * Charts can now be styled using CSS
+  * Added Simple Chart builders that produce charts with default configurations
+
 === Version 1.2.1 (04-Nov-2014) ===
 
 * Library changes:
