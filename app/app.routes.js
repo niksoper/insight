@@ -44,11 +44,6 @@
                         templateUrl: 'app/how-to/chart/multipleseries.html',
                         controller: 'HowToMultipleSeries'
                     })
-                    .when('/how-to/style/chart-style',
-                    {
-                        templateUrl: 'app/how-to/style/chart-style.html',
-                        controller: 'HowToStyleChartController'
-                    })
                     .when('/how-to/data/correlation',
                     {
                         templateUrl: 'app/how-to/data/correlation.html',
