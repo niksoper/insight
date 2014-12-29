@@ -8,7 +8,9 @@
         'ngRoute',
         'insightChartsControllers',
         'insightChartsServices',
-        'ui.bootstrap'
+        'ui.bootstrap',
+        'angulartics',
+        'angulartics.google.analytics'
     ]);
 }());
 
