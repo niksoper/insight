@@ -1,3 +1,13 @@
+=== Version 1.4.0 (08-Jan-2015) ===
+
+* Library changes:
+  * Added grouping to Simple Chart builders
+  * Added parameter to insight.Legend constructor to allow a chosen series to be omitted from the legend
+  * Added Series title truncation in insight.Legend
+
+* Issues fixed:
+  * Fixed bug where Legend is cut off if a series title is too long
+
 === Version 1.3.0 (18-Nov-2014) ===
 
 * Library changes:
@@ -17,7 +27,7 @@
   * Updated library to work with crossfilter to 1.3.11
   * Added utility, insight.conversion, for converting arff data to json data
 
-Issues fixed:
+* Issues fixed:
   * insight.DataSet.group function ignored any filter already applied on the DataSet.
 
 
