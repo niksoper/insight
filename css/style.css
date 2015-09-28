@@ -2,6 +2,7 @@ body {
     font: 14px/1.5 "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: #2c3e50;
     font-weight: 300;
+    padding-top: 25px;
 }
 
 h1, h2, h3 {
