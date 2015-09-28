@@ -201,6 +201,10 @@ img
   width: 100%;
 }
 
+.navbar-brand {
+    padding: 0;
+    height: inherit;
+}
 
 .sidebar-nav {
   position: absolute;
